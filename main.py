@@ -101,7 +101,12 @@ async def on_message(message: discord.Message):
                 return
             data[str(message.guild.id)] = {'channel':message.channel.id, 'cal':param[0]}
             save()
-            await message.channel.send("Channel registered for email subscription.")
+            confirmation = await message.channel.send("Channel registered for email subscription.")
+            time.sleep(3)
+            await confirmation.delete()
+            await message.delete()
+            calendar = service.calendars().get(calendarId='primary').execute()
+            await message.channel.send("Send your gmail address into this channel to have " + calendar['summary'] + " shared with you.\n Example: `gonzalo@gmail.com`")
 
 
 
