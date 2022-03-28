@@ -94,6 +94,7 @@ async def on_message(message: discord.Message):
                 errormsg = await message.channel.send("Something went wrong adding your gmail. Only send your gmail into this channel.")
                 time.sleep(5)
                 await errormsg.delete()
+                await message.delete()
 
         else:
             await message.delete()
