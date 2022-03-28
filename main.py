@@ -85,12 +85,16 @@ async def on_message(message: discord.Message):
                 }
 
                 created_rule = service.acl().insert(calendarId=data[str(message.guild.id)]["cal"], body=rule).execute()
+                confirmation = await message.channel.send("Shared to email.")
+                time.sleep(3)
+                await confirmation.delete()
+                await message.delete()
             except HttpError as error:
                 print('An error occurred: %s' % error)
-            confirmation = await message.channel.send("Shared to email.")
-            time.sleep(3)
-            await confirmation.delete()
-            await message.delete()
+                errormsg = await message.channel.send("Something went wrong adding your gmail. Only send your gmail into this channel.")
+                time.sleep(5)
+                await errormsg.delete()
+
         else:
             await message.delete()
 
