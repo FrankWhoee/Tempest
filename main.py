@@ -73,23 +73,26 @@ async def on_message(message: discord.Message):
         return
 
 
-    if str(message.guild.id) in list(data.keys()) and message.channel.id == data[str(message.guild.id)]["channel"] and message.content.endswith("@gmail.com"):
-        try:
-            rule = {
-                'scope': {
-                    'type': 'user',
-                    'value': message.content,
-                },
-                'role': 'writer'
-            }
+    if str(message.guild.id) in list(data.keys()) and message.channel.id == data[str(message.guild.id)]["channel"]:
+        if  message.content.endswith("@gmail.com"):
+            try:
+                rule = {
+                    'scope': {
+                        'type': 'user',
+                        'value': message.content,
+                    },
+                    'role': 'writer'
+                }
 
-            created_rule = service.acl().insert(calendarId=data[str(message.guild.id)]["cal"], body=rule).execute()
-        except HttpError as error:
-            print('An error occurred: %s' % error)
-        confirmation = await message.channel.send("Shared to email.")
-        time.sleep(3)
-        await confirmation.delete()
-        await message.delete()
+                created_rule = service.acl().insert(calendarId=data[str(message.guild.id)]["cal"], body=rule).execute()
+            except HttpError as error:
+                print('An error occurred: %s' % error)
+            confirmation = await message.channel.send("Shared to email.")
+            time.sleep(3)
+            await confirmation.delete()
+            await message.delete()
+        else:
+            await message.delete()
 
 
     if message.content.startswith('-'):
@@ -106,7 +109,7 @@ async def on_message(message: discord.Message):
             await confirmation.delete()
             await message.delete()
             calendar = service.calendars().get(calendarId=param[0]).execute()
-            await message.channel.send("Send your gmail address into this channel to have " + calendar['summary'] + " shared with you.\nExample: `gonzalo@gmail.com`")
+            await message.channel.send("Send your gmail address into this channel to have " + calendar['summary'] + " shared with you. All messages posted to this channel will be deleted.\nExample: gonzalo@gmail.com")
 
 
 
