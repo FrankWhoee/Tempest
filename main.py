@@ -106,7 +106,7 @@ async def on_message(message: discord.Message):
             await confirmation.delete()
             await message.delete()
             calendar = service.calendars().get(calendarId=param[0]).execute()
-            await message.channel.send("Send your gmail address into this channel to have " + calendar['summary'] + " shared with you.\n Example: `gonzalo@gmail.com`")
+            await message.channel.send("Send your gmail address into this channel to have " + calendar['summary'] + " shared with you.\nExample: `gonzalo@gmail.com`")
 
 
 
