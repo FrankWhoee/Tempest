@@ -98,9 +98,7 @@ async def on_message(message: discord.Message):
 
         else:
             await message.delete()
-
-
-    if message.content.startswith('-'):
+    elif message.content.startswith('-'):
         command = message.content[1:].split(" ")[0]
         param = message.content[1:].split(" ")[1:]
         if command == "register":
