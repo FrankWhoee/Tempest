@@ -2,6 +2,14 @@
 # Tempest
 Discord subscription to google calendars.
 
+## Features
+1. Shares Google Calendars with people automatically through Discord
+
+### Incoming Features
+1. Add events to your calendar in Discord
+2. Notify when new events are added to the calendar
+3. Indicate participation
+
 ## Prerequisites
 * Install [python](https://wiki.python.org/moin/BeginnersGuide/Download)
 * Install [pip](https://pip.pypa.io/en/stable/installation/)
