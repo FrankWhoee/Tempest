@@ -24,8 +24,6 @@ data = None
 event_roles_map = {}
 
 def save():
-    for key in event_roles_map.keys():
-        data["event_roles_map"][key] = (event_roles_map[key].guild.id,event_roles_map[key].id)
     with open('database.json', 'w') as outfile:
         json.dump(data, outfile)
 
@@ -65,23 +63,18 @@ creds = None
 
 @client.event
 async def on_ready():
+    global data
     print('We have logged in as {0.user}'.format(client))
     if path.exists("database.json"):
         with open('database.json', 'r') as f:
             data = json.load(f)
-
-        guild_roles = {}
-
-        for key in data["event_roles_map"].keys():
-            # if data["event_roles_map"][key][0] in guild_roles:
-            #
-            # else:
-
-            event_roles_map[key] = await (await client.fetch_guild(data["event_roles_map"][key][0])).fetch_roles()
-        print("Event role map loaded.")
     else:
         data = {}
         save()
+
+    for guild in client.guilds:
+        for event in guild.fetch_scheduled_events():
+
 
 
 @client.event
