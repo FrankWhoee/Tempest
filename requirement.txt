@@ -5,7 +5,6 @@ cachetools==5.0.0
 certifi==2021.10.8
 chardet==4.0.0
 charset-normalizer==2.0.12
-file:discord.py
 google-api-core==2.7.1
 google-api-python-client==2.42.0
 google-auth==2.6.2
