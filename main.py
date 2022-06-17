@@ -40,11 +40,22 @@ async def on_ready():
                 await on_scheduled_event_create(event)
             elif event.name != guild.get_role(data["event_roles_map"][str(event.id)]).name + " [TPT]":
                 await guild.get_role(data["event_roles_map"][str(event.id)]).edit(name=event.name + " [TPT]")
+
+        # Clean up event_roles_map
+        to_delete = []
+        for eid in data["event_roles_map"].keys():
+            if not guild.get_scheduled_event(int(eid)):
+                to_delete.append(eid)
+
+        for eid in to_delete:
+            del data["event_roles_map"][str(eid)]
+
         for role in guild.roles:
-            if role.name.endswith("[TPT]") and role.id not in data["event_roles_map"].values():
-                pass
-                # REMOVE ROLE NOT YET IMPLEMENTED
-                # await event.guild.remove_role(role.id)
+            print(role.name.endswith("[TPT]"))
+            print(role.id not in data["event_roles_map"].values())
+            print(role.name)
+            if role.name.endswith("[TPT]") and (role.id not in data["event_roles_map"].values()):
+                await role.delete()
 
 
 
@@ -59,8 +70,8 @@ async def on_scheduled_event_create(event: discord.ScheduledEvent):
 
 @client.event
 async def on_scheduled_event_delete(event: discord.ScheduledEvent):
-    # REMOVE ROLE NOT YET IMPLEMENTED
-    # await event.guild.remove_role(data["event_roles_map"][str(event.id)])
+    print("Event deleted.")
+    await event.guild.get_role(data["event_roles_map"][str(event.id)]).delete()
     del data["event_roles_map"][str(event.id)]
 
 @client.event
