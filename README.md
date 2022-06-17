@@ -3,7 +3,6 @@
 Makes discord events mentionable. Automatically creates roles when a Scheduled Event is created, and assigns people to that role when they sign up as Interested.
 
 ### TODO
-1. Removing role when event expires. Needs remove_role in discord.py, which is not yet implemented.
 
 ## Prerequisites
 * Install [python](https://wiki.python.org/moin/BeginnersGuide/Download)
