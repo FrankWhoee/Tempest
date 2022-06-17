@@ -16,6 +16,8 @@ Makes discord events mentionable. Automatically creates roles when a Scheduled E
 1. Clone repository: `git clone https://github.com/FrankWhoee/Tempest.git`
 2. `cd Tempest`
 3. Create a virtual env: `python3 -m venv venv`
+4. `git submodule init`
+4. `git submodule update`
 4. Activate venv: `source venv/bin/activate`
 5. Install packages: `pip install -r requirements.txt`
 7. Create a [Discord bot](https://discordpy.readthedocs.io/en/stable/discord.html)
