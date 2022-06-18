@@ -32,30 +32,44 @@ async def on_ready():
 
     if "event_roles_map" not in data.keys():
         data["event_roles_map"] = {}
-    print(data["event_roles_map"])
+    to_delete = list(data["event_roles_map"].keys())
+    print(to_delete)
     for guild in client.guilds:
         await guild.fetch_roles()
+        evts = await guild.fetch_scheduled_events()
+        evt_ids = []
+        for e in evts:
+            evt_ids.append(e.id)
         for event in await guild.fetch_scheduled_events():
             if str(event.id) not in data["event_roles_map"].keys() or not guild.get_role(data["event_roles_map"][str(event.id)]):
                 await on_scheduled_event_create(event)
             elif event.name != guild.get_role(data["event_roles_map"][str(event.id)]).name + " [TPT]":
                 await guild.get_role(data["event_roles_map"][str(event.id)]).edit(name=event.name + " [TPT]")
-
-        # Clean up event_roles_map
-        to_delete = []
-        for eid in data["event_roles_map"].keys():
-            if not guild.get_scheduled_event(int(eid)):
-                to_delete.append(eid)
-
-        for eid in to_delete:
-            del data["event_roles_map"][str(eid)]
-
+            else:
+                interested = []
+                async for user in event.users():
+                    await on_scheduled_event_user_add(event, user)
+                    interested.append(user.id)
+                associated_role = event.guild.get_role(data["event_roles_map"][event.id])
+                for m in associated_role.members:
+                    if m.id not in interested:
+                        await m.remove_roles(associated_role)
+        print(evt_ids)
+        # Mark eid for keeping
+        for i in range(len(to_delete) - 1,-1,-1):
+            eid = to_delete[i]
+            if int(eid) in evt_ids:
+                to_delete.remove(eid)
+    # Delete unmarked eids
+    for eid in to_delete:
+        del data["event_roles_map"][str(eid)]
+    # Delete roles not in event map
+    for guild in client.guilds:
         for role in guild.roles:
-            print(role.name.endswith("[TPT]"))
-            print(role.id not in data["event_roles_map"].values())
-            print(role.name)
             if role.name.endswith("[TPT]") and (role.id not in data["event_roles_map"].values()):
                 await role.delete()
+    save()
+    print("Finished cleaning up and catching up to events.")
 
 
 
