@@ -33,7 +33,6 @@ async def on_ready():
     if "event_roles_map" not in data.keys():
         data["event_roles_map"] = {}
     to_delete = list(data["event_roles_map"].keys())
-    print(to_delete)
     for guild in client.guilds:
         await guild.fetch_roles()
         evts = await guild.fetch_scheduled_events()
