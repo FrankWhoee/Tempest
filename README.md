@@ -20,8 +20,8 @@ Makes discord events mentionable. Automatically creates roles when a Scheduled E
 4. Activate venv: `source venv/bin/activate`
 5. Install packages: `pip install -r requirements.txt`
 5. Install discord latest:
-    5. `cd discord.py`
-    5. `pip install -U .`
+    * `cd discord.py`
+    * `pip install -U .`
 7. Create a [Discord bot](https://discordpy.readthedocs.io/en/stable/discord.html)
 8. `echo "DISCORD=YOURDISCORDBOTTOKEN" > .env`
 9. `python3 main.py`
